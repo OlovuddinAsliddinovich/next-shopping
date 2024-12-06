@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import CustomImage from "@/components/image";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
+// import ReactStars from "react-stars";
 
 const ProductDetailedPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -62,6 +63,7 @@ const ProductDetailedPage = () => {
                             {Array.from({ length: 5 - Math.floor(product?.rating?.rate) }, (_, idx) => (
                               <StarIconOutline key={idx} className="h-5 w-5 text-yellow-500" />
                             ))}
+                            {/* <ReactStars value={product?.rating?.rate} edit={false} /> */}
                           </div>
                         )}
                         <p className="text-xs cursor-pointer text-blue-600 hover:underline">See all {product?.rating?.count} reviews</p>
