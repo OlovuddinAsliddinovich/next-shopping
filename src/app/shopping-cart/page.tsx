@@ -4,9 +4,50 @@ import CustomImage from "@/components/image";
 import { ProductType } from "@/interfaces";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 const ShoppingCart = () => {
-  const products: ProductType[] = JSON.parse(localStorage.getItem("carts") as string) || [];
+  const [products, setProducts] = useState<ProductType[]>(JSON.parse(localStorage.getItem("carts") as string) || []);
+
+  const removeProduct = (id: number) => {
+    const updatedProducts = products.filter((product) => product.id !== id);
+    localStorage.setItem("carts", JSON.stringify(updatedProducts));
+    setProducts(updatedProducts);
+  };
+
+  const handleIncrement = (id: number) => {
+    const updatedProducts = products.map((product) => {
+      if (product.id === id) {
+        return {
+          ...product,
+          quantity: product.quantity + 1,
+        };
+      }
+      return product;
+    });
+
+    localStorage.setItem("carts", JSON.stringify(updatedProducts));
+    setProducts(updatedProducts);
+  };
+
+  const handleDecrement = (id: number) => {
+    const existProduct = products.find((product) => product.id === id);
+    if (existProduct?.quantity === 1) {
+      removeProduct(existProduct.id);
+    } else {
+      const updatedProducts = products.map((product) => {
+        if (product.id === id) {
+          return {
+            ...product,
+            quantity: product.quantity - 1,
+          };
+        }
+        return product;
+      });
+      localStorage.setItem("carts", JSON.stringify(updatedProducts));
+      setProducts(updatedProducts);
+    }
+  };
 
   return (
     <div className="h-screen bg-gray-100 pt-20">
@@ -49,13 +90,26 @@ const ShoppingCart = () => {
                 </div>
                 <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                   <div className="flex items-center border-gray-100">
-                    <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
+                    <button
+                      onClick={() => handleDecrement(product.id)}
+                      className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                    >
+                      {" "}
+                      -{" "}
+                    </button>
                     <input className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={product.quantity} min="1" />
-                    <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
+                    <button
+                      onClick={() => handleIncrement(product.id)}
+                      className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                    >
+                      {" "}
+                      +{" "}
+                    </button>
                   </div>
                   <div className="flex items-center space-x-4">
                     <p className="text-sm">{product.price.toLocaleString("en-US", { style: "currency", currency: "USD" })}</p>
                     <svg
+                      onClick={() => removeProduct(product.id)}
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
