@@ -7,6 +7,7 @@ import { StarIcon as StarIconOutline } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
 const ShoppingCart = () => {
+  const [total, setTotal] = useState<number>(0);
   const [products, setProducts] = useState<ProductType[]>(JSON.parse(localStorage.getItem("carts") as string) || []);
 
   const removeProduct = (id: number) => {
@@ -107,7 +108,7 @@ const ShoppingCart = () => {
                     </button>
                   </div>
                   <div className="flex items-center space-x-4">
-                    <p className="text-sm">{product.price.toLocaleString("en-US", { style: "currency", currency: "USD" })}</p>
+                    <p className="text-sm">{(product.price * product.quantity).toLocaleString("en-US", { style: "currency", currency: "USD" })}</p>
                     <svg
                       onClick={() => removeProduct(product.id)}
                       xmlns="http://www.w3.org/2000/svg"
