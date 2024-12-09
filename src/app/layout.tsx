@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "@/components/footer";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={montserrat.className}>
         <Navbar />
         {children}
+        <Footer />
         <ToastContainer />
       </body>
     </html>
