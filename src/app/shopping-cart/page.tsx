@@ -9,11 +9,23 @@ import Link from "next/link";
 
 const ShoppingCart = () => {
   const [total, setTotal] = useState<number>(0);
-  const [products, setProducts] = useState<ProductType[]>(JSON.parse(localStorage.getItem("carts") as string) || []);
+  const [products, setProducts] = useState<ProductType[]>([]);
+
+  // Fetch cart items from localStorage only on the client side
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedProducts = localStorage.getItem("carts");
+      if (storedProducts) {
+        setProducts(JSON.parse(storedProducts));
+      }
+    }
+  }, []);
 
   const removeProduct = (id: number) => {
     const updatedProducts = products.filter((product) => product.id !== id);
-    localStorage.setItem("carts", JSON.stringify(updatedProducts));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("carts", JSON.stringify(updatedProducts));
+    }
     setProducts(updatedProducts);
   };
 
@@ -28,7 +40,9 @@ const ShoppingCart = () => {
       return product;
     });
 
-    localStorage.setItem("carts", JSON.stringify(updatedProducts));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("carts", JSON.stringify(updatedProducts));
+    }
     setProducts(updatedProducts);
   };
 
@@ -46,17 +60,20 @@ const ShoppingCart = () => {
         }
         return product;
       });
-      localStorage.setItem("carts", JSON.stringify(updatedProducts));
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("carts", JSON.stringify(updatedProducts));
+      }
       setProducts(updatedProducts);
     }
   };
 
   useEffect(() => {
-    const total = products.reduce((acc, item) => {
+    const totalAmount = products.reduce((acc, item) => {
       return acc + item.price * item.quantity;
     }, 0);
 
-    setTotal(total);
+    setTotal(totalAmount);
   }, [products]);
 
   return (
