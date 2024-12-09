@@ -33,7 +33,7 @@ const Cta = () => {
             />
           </div>
           <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
-          <p className="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          <p className="text-xs text-gray-500 mt-3">Literally you probably haven`t heard of them jean shorts.</p>
         </div>
       </div>
     </section>
