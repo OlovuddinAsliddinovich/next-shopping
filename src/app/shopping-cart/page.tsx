@@ -178,7 +178,7 @@ const ShoppingCart = () => {
           </div>
         </div>
       ) : (
-        <div className="flex h-[calc(100vh-80px)] items-center justify-center p-5 bg-white w-full">
+        <div className="flex h-[calc(100vh-80px)] mt-4 items-center justify-center p-5 bg-white w-full">
           <div className="text-center">
             <div className="inline-flex rounded-full bg-yellow-100 p-4">
               <div className="rounded-full stroke-yellow-600 bg-yellow-200 p-4">
